@@ -1,0 +1,227 @@
+{
+  "infos_etablissement": {
+    "nom": "Don Camillos Pizza",
+    "adresse": "Avenue Marmont, Parking My Auchan, 91170 Viry-Châtillon",
+    "telephone": "06.35.80.69.68",
+    "horaires": "7/7j, 12:00 à 14:30 et 18:00 à 22:30",
+    "specificites": "Sur place, à emporter ou livraisons"
+  },
+  "pizzas_base_tomates": [
+    {
+      "nom": "Margherita",
+      "composition": "Sauce tomate parfumée, Mozzarella, Olives, Basilic",
+      "prix": 8.50,
+      "image_path": "/img/margherita.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Napolitaine",
+      "composition": "Sauce tomate parfumée, Mozzarella, Câpres, Anchois, Olives, Basilic",
+      "prix": 11.00,
+      "image_path": "/img/napolitaine.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Regina",
+      "composition": "Sauce tomate parfumée, Mozzarella, Jambon, Champignons, Olives",
+      "prix": 11.00,
+      "image_path": "/img/regina.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Cinq Fromages",
+      "composition": "Sauce tomate parfumée, Mozzarella, Brie, Chèvre, Gorgonzola, Copeaux de parmesan",
+      "prix": 11.00,
+      "image_path": "/img/cinq-fromages.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Pepperoni",
+      "composition": "Sauce tomate parfumée, Mozzarella, Peppéronis piquants",
+      "prix": 11.00,
+      "image_path": "/img/pepperoni.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Primeur",
+      "composition": "Sauce tomate parfumée, Mozarella, Variété de légumes grillés, Basilic, Roquette",
+      "prix": 11.00,
+      "image_path": "/img/primeur.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Parma",
+      "composition": "Sauce tomate parfumée, Mozzarella, Jambon de parme, Copeaux de parmesan, Roquette",
+      "prix": 12.90,
+      "image_path": "/img/parma.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Bresaola",
+      "composition": "Sauce tomate parfumée, Bresaola, Parmesan",
+      "prix": 12.00,
+      "image_path": "/img/bresaola.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Chicken",
+      "composition": "Sauce tomate parfumée, Mozzarella, Blancs de poulet, Poivrons, Basilic",
+      "prix": 12.00,
+      "image_path": "/img/chicken.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Quatre Saisons",
+      "composition": "Sauce tomate parfumée, Mozzarella, Jambon, Champignons, Artichauts, Olives, Basilic",
+      "prix": 12.00,
+      "image_path": "/img/quatre-saisons.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "L'Orientale",
+      "composition": "Sauce tomate parfumée, Mozzarella, Merguez, Olives, Poivrons, Oeuf",
+      "prix": 12.00,
+      "image_path": "/img/orientale.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Sportivo",
+      "composition": "Sauce tomate parfumée, variétés de légumes grillés - à composer",
+      "prix": 12.00,
+      "image_path": "/img/sportivo.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Calzone",
+      "composition": "Sauce tomate parfumée, Mozzarella, Jambon, Champignons, Oeuf",
+      "prix": 12.00,
+      "image_path": "/img/calzone.webp",
+      "fait_maison": false
+    }
+  ],
+  "pizzas_base_creme": [
+    {
+      "nom": "Scandinave",
+      "composition": "Base crème, Saumon, Mozzarella, Aneth, Zests de citron",
+      "prix": 12.00,
+      "image_path": "/img/scandinave.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Thon",
+      "composition": "Base crème, Thon, Maïs, Mozzarella, Champignons",
+      "prix": 12.00,
+      "image_path": "/img/thon.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Chèvre et Miel",
+      "composition": "Base crème, Chèvre, Miel, Tomates cerises, Roquette, Vinaigre balsamique, Copeaux de parmesan",
+      "prix": 12.00,
+      "image_path": "/img/chevre-et-miel.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Michaëllo",
+      "composition": "Base crème, Crème de gorgonzolla, Ricotta, Noix, Pesto, Copeaux de parmesan",
+      "prix": 12.00,
+      "image_path": "/img/michaello.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Primavera",
+      "composition": "Base crème, Mozarrella, Pommes de terre, Poulet, Champignons",
+      "prix": 12.00,
+      "image_path": "/img/primavera.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Fermière",
+      "composition": "Base crème, Mozarrella, Lardons, Pommes de terre, Champignons, Oeuf",
+      "prix": 12.00,
+      "image_path": "/img/fermiere.webp",
+      "fait_maison": false
+    }
+  ],
+  "specialites": [
+    {
+      "nom": "Apéritifs Napolitains",
+      "composition": "Délicieux roulés de pâte à pizza garnis d'ingrédients frais à composer (12 à 15 pièces)",
+      "prix": 12.90,
+      "image_path": "/img/aperitifs-napolitains.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Piment fait maison",
+      "composition": "Petit pot de sauce pimentée maison",
+      "prix": 0.50,
+      "image_path": "/img/piment-maison.webp",
+      "fait_maison": true
+    }
+  ],
+  "sandwichs": [
+    {
+      "nom": "Le Crusto",
+      "composition": "Sandwich chaud à composer",
+      "prix": 6.90,
+      "image_path": "/img/sandwich-le-crusto.webp",
+      "fait_maison": false
+    }
+  ],
+  "desserts": [
+    {
+      "nom": "Tiramisu",
+      "composition": "Fait maison",
+      "prix": 4.50,
+      "image_path": "/img/tiramisu.webp",
+      "fait_maison": true
+    },
+    {
+      "nom": "Mousse au Chocolat",
+      "composition": "Fait maison",
+      "prix": 4.00,
+      "image_path": "/img/mousse-au-chocolat.webp",
+      "fait_maison": true
+    },
+    {
+      "nom": "Panna Cotta",
+      "composition": "Fait maison",
+      "prix": 3.90,
+      "image_path": "/img/panna-cotta.webp",
+      "fait_maison": true
+    },
+    {
+      "nom": "Pizza Nutella Banane",
+      "composition": "Nutella, Banane - Fait maison",
+      "prix": 8.00,
+      "image_path": "/img/pizza-nutella-banane.webp",
+      "fait_maison": true
+    }
+  ],
+  "salades": [
+    {
+      "nom": "Composez votre salade",
+      "composition": "Selon arrivages du moment",
+      "prix_a_emporter": 8.90,
+      "prix_sur_place": 12.90,
+      "image_path": "/img/salade.webp",
+      "fait_maison": false
+    }
+  ],
+  "boissons": [
+    {
+      "nom": "Sodas",
+      "composition": "Boissons au choix sur place",
+      "prix": 1.50,
+      "image_path": "/img/sodas.webp",
+      "fait_maison": false
+    },
+    {
+      "nom": "Eau",
+      "composition": "Bouteille d'eau",
+      "prix": 1,
+      "image_path": "/img/eau.webp",
+      "fait_maison": false
+    }
+  ]
+}
