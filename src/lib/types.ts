@@ -9,6 +9,7 @@ export interface EstablishmentInfo {
 }
 
 export interface MenuItem {
+  _id: string;
   nom: string;
   composition: string;
   prix?: number;

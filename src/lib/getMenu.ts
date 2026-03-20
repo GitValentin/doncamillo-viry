@@ -26,6 +26,7 @@ const ESTABLISHMENT_INFO: EstablishmentInfo = {
 function toMenuItem(product: SanityProduct): MenuItem {
   const hasDualPricing = product.priceSurPlace != null
   return {
+    _id: product._id,
     nom: product.name,
     composition: product.composition,
     prix: hasDualPricing ? undefined : product.price,
