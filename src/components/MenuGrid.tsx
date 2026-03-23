@@ -127,61 +127,24 @@ function SectionCard({ title }: { title: string }) {
 /* ------------------------------------------------------------------ */
 
 function CategoryNav() {
-  const [activeSlug, setActiveSlug] = useState<string | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
   const handleClick = (slug: string) => {
-    setActiveSlug(slug);
     const el = document.getElementById(slug);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  useEffect(() => {
-    if (!scrollRef.current || !activeSlug) return;
-    const activeEl = scrollRef.current.querySelector<HTMLElement>(
-      '[data-active="true"]',
-    );
-    if (activeEl) {
-      const container = scrollRef.current;
-      const left =
-        activeEl.offsetLeft -
-        container.offsetWidth / 2 +
-        activeEl.offsetWidth / 2;
-      container.scrollTo({ left, behavior: 'smooth' });
-    }
-  }, [activeSlug]);
-
   return (
     <div className="border-b border-dc-gold/10 bg-dc-offwhite">
-      <div
-        ref={scrollRef}
-        className="scrollbar-hide mx-auto flex max-w-6xl flex-nowrap gap-1.5 overflow-x-auto px-4 py-2.5 md:flex-wrap md:justify-center md:gap-2.5 md:py-3"
-      >
-        {CATEGORIES.map((cat) => {
-          const isActive = cat.slug === activeSlug;
-          return (
-            <motion.button
-              key={cat.slug}
-              onClick={() => handleClick(cat.slug)}
-              whileTap={{ scale: 0.93 }}
-              className={`relative shrink-0 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors md:px-4 md:py-2 md:text-sm ${
-                isActive
-                  ? 'text-white'
-                  : 'bg-dc-charcoal/[0.04] text-dc-charcoal/55 hover:bg-dc-charcoal/[0.08] hover:text-dc-charcoal'
-              }`}
-              data-active={isActive}
-            >
-              {isActive && (
-                <motion.span
-                  layoutId="active-pill"
-                  className="absolute inset-0 rounded-full bg-dc-red shadow-sm"
-                  transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                />
-              )}
-              <span className="relative z-10">{cat.label}</span>
-            </motion.button>
-          );
-        })}
+      <div className="scrollbar-hide mx-auto flex max-w-6xl flex-nowrap gap-1.5 overflow-x-auto px-4 py-2.5 md:flex-wrap md:justify-center md:gap-2.5 md:py-3">
+        {CATEGORIES.map((cat) => (
+          <motion.button
+            key={cat.slug}
+            onClick={() => handleClick(cat.slug)}
+            whileTap={{ scale: 0.93 }}
+            className="shrink-0 rounded-full bg-dc-charcoal/[0.04] px-3 py-1.5 text-xs font-medium whitespace-nowrap text-dc-charcoal/55 transition-colors hover:bg-dc-charcoal/[0.1] hover:text-dc-charcoal md:px-4 md:py-2 md:text-sm"
+          >
+            {cat.label}
+          </motion.button>
+        ))}
       </div>
     </div>
   );
@@ -557,8 +520,8 @@ export default function MenuGrid({ pages }: MenuGridProps) {
               }
             >
               <div
-                className={`overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(26,26,26,0.07),0_1.5px_6px_rgba(26,26,26,0.04)] ${
-                  fullWidth ? '' : 'h-full'
+                className={`overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(26,26,26,0.07),0_1.5px_6px_rgba(26,26,26,0.04)] transition-shadow duration-200 ${
+                  fullWidth ? '' : 'h-full hover:shadow-[0_8px_40px_rgba(26,26,26,0.12),0_2px_8px_rgba(26,26,26,0.08)]'
                 }`}
               >
                 {page.type === 'section' && (
