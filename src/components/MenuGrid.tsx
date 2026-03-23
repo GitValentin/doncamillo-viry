@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   MapPin,
   Phone,
   Clock,
@@ -27,6 +28,16 @@ interface MenuGridProps {
 }
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const CATEGORIES: { title: string; label: string; slug: string }[] = [
+  { title: 'Pizzas base tomates', label: 'Pizzas Tomate', slug: 'pizzas-tomate' },
+  { title: 'Pizzas base crème', label: 'Pizzas Crème', slug: 'pizzas-creme' },
+  { title: 'Spécialités', label: 'Spécialités', slug: 'specialites' },
+  { title: 'Sandwichs', label: 'Sandwichs', slug: 'sandwichs' },
+  { title: 'Desserts', label: 'Desserts', slug: 'desserts' },
+  { title: 'Salades', label: 'Salades', slug: 'salades' },
+  { title: 'Boissons', label: 'Boissons', slug: 'boissons' },
+];
 
 function formatPrice(prix: number): string {
   return prix.toFixed(2).replace('.', ',') + ' €';
@@ -110,6 +121,75 @@ function SectionCard({ title }: { title: string }) {
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/*  Quick Nav — horizontal pill bar                                    */
+/* ------------------------------------------------------------------ */
+
+function CategoryNav() {
+  const [activeSlug, setActiveSlug] = useState<string | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleClick = (slug: string) => {
+    setActiveSlug(slug);
+    const el = document.getElementById(slug);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  useEffect(() => {
+    if (!scrollRef.current || !activeSlug) return;
+    const activeEl = scrollRef.current.querySelector<HTMLElement>(
+      '[data-active="true"]',
+    );
+    if (activeEl) {
+      const container = scrollRef.current;
+      const left =
+        activeEl.offsetLeft -
+        container.offsetWidth / 2 +
+        activeEl.offsetWidth / 2;
+      container.scrollTo({ left, behavior: 'smooth' });
+    }
+  }, [activeSlug]);
+
+  return (
+    <div className="border-b border-dc-gold/10 bg-dc-offwhite">
+      <div
+        ref={scrollRef}
+        className="scrollbar-hide mx-auto flex max-w-6xl flex-nowrap gap-1.5 overflow-x-auto px-4 py-2.5 md:flex-wrap md:justify-center md:gap-2.5 md:py-3"
+      >
+        {CATEGORIES.map((cat) => {
+          const isActive = cat.slug === activeSlug;
+          return (
+            <motion.button
+              key={cat.slug}
+              onClick={() => handleClick(cat.slug)}
+              whileTap={{ scale: 0.93 }}
+              className={`relative shrink-0 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors md:px-4 md:py-2 md:text-sm ${
+                isActive
+                  ? 'text-white'
+                  : 'bg-dc-charcoal/[0.04] text-dc-charcoal/55 hover:bg-dc-charcoal/[0.08] hover:text-dc-charcoal'
+              }`}
+              data-active={isActive}
+            >
+              {isActive && (
+                <motion.span
+                  layoutId="active-pill"
+                  className="absolute inset-0 rounded-full bg-dc-red shadow-sm"
+                  transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                />
+              )}
+              <span className="relative z-10">{cat.label}</span>
+            </motion.button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Card sub-components (continued)                                    */
+/* ------------------------------------------------------------------ */
 
 function ItemCard({
   item,
@@ -326,6 +406,7 @@ function ProductModal({
 export default function MenuGrid({ pages }: MenuGridProps) {
   const [activeSectionIdx, setActiveSectionIdx] = useState(-1);
   const [selectedProduct, setSelectedProduct] = useState<MenuItem | null>(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const closeModal = useCallback(() => setSelectedProduct(null), []);
 
@@ -367,6 +448,26 @@ export default function MenuGrid({ pages }: MenuGridProps) {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setShowBackToTop(window.scrollY > 500);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const activePage =
@@ -411,10 +512,34 @@ export default function MenuGrid({ pages }: MenuGridProps) {
         </AnimatePresence>
       </ClientPortal>
 
+      {/* Cover card — rendered above the grid */}
+      {pages[0]?.type === 'cover' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.45, ease: EASE }}
+          className="mx-auto max-w-6xl px-4 pt-6"
+        >
+          <div className="overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(26,26,26,0.07),0_1.5px_6px_rgba(26,26,26,0.04)]">
+            <CoverCard info={pages[0].info} />
+          </div>
+        </motion.div>
+      )}
+
+      {/* Quick Nav category pills — static, scrolls with page */}
+      <CategoryNav />
+
       {/* Responsive card grid */}
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-4 pt-6 pb-24 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-4 pt-2 pb-24 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6">
         {pages.map((page, i) => {
+          if (page.type === 'cover') return null;
+
           const fullWidth = page.type !== 'item';
+          const sectionSlug =
+            page.type === 'section'
+              ? CATEGORIES.find((c) => c.title === page.title)?.slug
+              : undefined;
 
           return (
             <motion.div
@@ -424,8 +549,9 @@ export default function MenuGrid({ pages }: MenuGridProps) {
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.45, ease: EASE }}
               className={`${fullWidth ? 'col-span-full' : ''} ${
-                page.type === 'section' ? 'scroll-mt-4' : ''
+                page.type === 'section' ? 'scroll-mt-8' : ''
               }`}
+              id={sectionSlug}
               data-section-idx={
                 page.type === 'section' ? i : undefined
               }
@@ -435,7 +561,6 @@ export default function MenuGrid({ pages }: MenuGridProps) {
                   fullWidth ? '' : 'h-full'
                 }`}
               >
-                {page.type === 'cover' && <CoverCard info={page.info} />}
                 {page.type === 'section' && (
                   <SectionCard title={page.title} />
                 )}
@@ -456,7 +581,7 @@ export default function MenuGrid({ pages }: MenuGridProps) {
         className="fixed inset-x-0 bottom-0 z-50 border-t border-dc-gold/10 bg-white/80 backdrop-blur-xl"
         aria-label="Navigation du menu"
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
           <button
             onClick={() => scrollToSection(-1)}
             disabled={activeSectionIdx < 0}
@@ -466,7 +591,7 @@ export default function MenuGrid({ pages }: MenuGridProps) {
             <ChevronLeft size={18} />
           </button>
 
-          <span className="mx-4 truncate text-center text-sm font-medium tracking-wide text-dc-charcoal/55">
+          <span className="min-w-0 flex-1 truncate text-center text-sm font-medium tracking-wide text-dc-charcoal/55">
             {sectionTitle || 'La Carte'}
           </span>
 
@@ -478,6 +603,26 @@ export default function MenuGrid({ pages }: MenuGridProps) {
           >
             <ChevronRight size={18} />
           </button>
+
+          <AnimatePresence>
+            {showBackToTop && (
+              <motion.button
+                key="back-to-top"
+                onClick={scrollToTop}
+                initial={{ opacity: 0, scale: 0.6, x: 20 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.6, x: 20 }}
+                transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-dc-gold bg-dc-gold text-white shadow-md transition-colors hover:bg-dc-gold/90 lg:w-auto lg:gap-1.5 lg:px-4"
+                aria-label="Retour en haut"
+              >
+                <ChevronUp size={18} />
+                <span className="hidden text-xs font-semibold tracking-wide lg:inline">
+                  Haut
+                </span>
+              </motion.button>
+            )}
+          </AnimatePresence>
         </div>
       </nav>
     </>
